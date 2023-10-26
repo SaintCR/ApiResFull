@@ -23,7 +23,7 @@ app.get('/api/obras', (req, res) => {
     conexion.query('SELECT * FROM obras', (error, filas) => {
         if (error) {
             throw error;
-        }
+        }  
         res.json(filas);
     });
 });
