@@ -60,6 +60,30 @@ app.post('/api/obras', (req, res) => {
     });
 });
 
+// Metodo PUT (Actualizar) campos de la DB 
+app.put('/api/obras/:id', (req, res) => {
+    const id = req.params.id;
+    const { titulo, autor, genero, idioma, isbn } = req.body;
+
+    if (!id || !titulo || !autor || !genero || !idioma || !isbn) {
+        return res.status(400).json('Error: Datos incompletos en la solicitud. Asegúrate de proporcionar todos los campos obligatorios.');
+    }
+
+    const sql = 'UPDATE obras SET ? WHERE id = ?';
+    const newData = { titulo, autor, genero, idioma, isbn };
+
+    conexion.query(sql, [newData, id], (error, result) => {
+        if (error) {
+            console.error('Error al actualizar la obra:', error);
+            return res.status(500).json('Error: No se pudo actualizar la obra literaria. Inténtalo de nuevo más tarde.');
+        } else {
+            return res.json('Éxito: La obra literaria se ha actualizado satisfactoriamente.');
+        }
+    });
+});
+
+
+
 
 app.listen(puerto, () => {
     console.log("Servidor OK en puerto: " + puerto);
