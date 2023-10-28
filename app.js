@@ -82,7 +82,23 @@ app.put('/api/obras/:id', (req, res) => {
     });
 });
 
+// Metodo DELETE (Eliminar) registro de la base de datos
+app.delete('/api/obras/:id', (req, res) => {
+    const id = req.params.id;
 
+    if (!id) {
+        return res.status(400).json({ error: 'Oops, parece que algo salió mal. Asegúrate de proporcionar un ID válido para eliminar la obra.' });
+    }
+
+    conexion.query('DELETE FROM obras WHERE id = ?', id, (error, result) => {
+        if (error) {
+            console.error('Error al eliminar la obra:', error);
+            return res.status(500).json({ error: '¡Oh no! Algo salió mal. No se pudo eliminar la obra en este momento. Por favor, inténtalo de nuevo más tarde.' });
+        } else {
+            return res.json({ message: '¡La obra ha sido eliminada con éxito! Esperamos que hayas disfrutado de esta experiencia.' });
+        }
+    });
+});
 
 
 app.listen(puerto, () => {
