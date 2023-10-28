@@ -41,24 +41,31 @@ app.get('/api/obras/:id', (req, res) => {
 
 // Metodo de insercción de nuevos datos POST
 app.post('/api/obras', (req, res) => {
-    let data = {
-        titulo: req.body.titulo,
-        autor: req.body.autor,
-        genero: req.body.genero,
-        idioma: req.body.idioma,
-        isbn: req.body.isbn
+    const { titulo, autor, genero, idioma, isbn } = req.body;
+
+    if (!titulo || !autor || !genero || !idioma || !isbn) {
+        return res.status(400).json({ error: 'Faltan datos obligatorios en la solicitud' });
+    }
+
+    const data = {
+        titulo,
+        autor,
+        genero,
+        idioma,
+        isbn
     };
 
-    let sql = "INSERT INTO obras SET ?";
-
+    const sql = "INSERT INTO obras SET ?";
     conexion.query(sql, data, (error, results) => {
         if (error) {
-            throw error;
+            console.error('Error al crear la obra:', error);
+            return res.status(500).json({ error: 'No se pudo crear la obra' });
         } else {
-            res.send(results);
+            return res.json({ message: 'Obra creada exitosamente' });
         }
     });
 });
+
 
 // Metodo PUT (Actualizar) campos de la DB 
 app.put('/api/obras/:id', (req, res) => {
@@ -75,9 +82,9 @@ app.put('/api/obras/:id', (req, res) => {
     conexion.query(sql, [newData, id], (error, result) => {
         if (error) {
             console.error('Error al actualizar la obra:', error);
-            return res.status(500).json('Error: No se pudo actualizar la obra literaria. Inténtalo de nuevo más tarde.');
+            return res.status(500).json({ error: 'No se pudo actualizar la obra literaria. Inténtalo de nuevo más tarde.'});
         } else {
-            return res.json('Éxito: La obra literaria se ha actualizado satisfactoriamente.');
+            return res.json({ message: 'La obra literaria se ha actualizado satisfactoriamente.'});
         }
     });
 });
