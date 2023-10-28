@@ -6,7 +6,7 @@ La combinación de estas tecnologías y el uso de APIs externas permite la creac
 
 ## Versión del Proyecto
 
-La versión actual del software es la **2.5**, que incluye diversas actualizaciones, mejoras y cambios para ofrecer una experiencia de usuario mejorada.
+La versión actual del software es la **2.1**, que incluye diversas actualizaciones, mejoras y cambios para ofrecer una experiencia de usuario mejorada.
 
 ## Instrucciones de Instalación
 
